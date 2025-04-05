@@ -11,16 +11,15 @@ public class Player extends Entity{
     private BufferedImage[][] animations;
     private int aniTick;
     private int aniIndex;
-    private int aniSpeed = 15;
+    private int aniSpeed = 22;
     private int playerAction = IDLE;
-    private int playDir = -1;
     private boolean left, up, right, down;
     private boolean isMoving = false;
     private boolean isAttacking = false;
-    private float playerSpeed = 2.0F;
+    private float playerSpeed = 1.0F;
 
-    public Player(float x, float y) {
-        super(x, y);
+    public Player(float x, float y, int width, int height) {
+        super(x, y, width, height);
         loadAnimations();
     }
 
@@ -31,7 +30,7 @@ public class Player extends Entity{
     }
 
     public void render(Graphics g) {
-        g.drawImage(animations[playerAction][aniIndex], (int)x, (int)y,256,160, null);
+        g.drawImage(animations[playerAction][aniIndex], (int)x, (int)y,width,height, null);
     }
 
     private void updateAnimationTick() {

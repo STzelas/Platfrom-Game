@@ -38,7 +38,7 @@ public class Game implements Runnable {
     }
 
     private void initClasses() {
-        player = new Player(200, 200);
+        player = new Player(200, 200, (int)(64 * SCALE), (int)(40 * SCALE));
         levelManager = new LevelManager(this);
     }
 
@@ -56,8 +56,8 @@ public class Game implements Runnable {
     }
 
     public void render(Graphics g) {
-        player.render(g);
         levelManager.draw(g);
+        player.render(g);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class Game implements Runnable {
         double timePerFrame = 1000000000.0 / FPS_SET;
         double timePerUpdate = 1000000000.0 / UPS_SET;   // frequency of time of update between frames
 
-        long previousTime = System.currentTimeMillis();
+        long previousTime = System.nanoTime();
 
         int frames = 0;
         int updates = 0;
