@@ -1,6 +1,7 @@
 package entities;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 /**
  * All entities of the game. Player, enemies etc.
@@ -10,7 +11,7 @@ public abstract class Entity {
     protected float y;
     protected int width;
     protected int height;
-    protected Rectangle hitbox;
+    protected Rectangle2D.Float hitbox;
 
     public Entity(float x, float y, int width, int height) {
         this.x = x;
@@ -18,27 +19,25 @@ public abstract class Entity {
         this.width = width;
         this.height = height;
 
-        initHitbox();
-
     }
 
     protected void drawHitbox(Graphics g) {
         // For debugging the hitbox
         g.setColor(Color.RED);
-        g.drawRect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
+        g.drawRect((int)hitbox.x, (int)hitbox.y, (int)hitbox.width, (int)hitbox.height);
     }
 
-    private void initHitbox() {
-        hitbox = new Rectangle((int)x, (int)y, width, height);
+    protected void initHitbox(float x, float y, float width, float height) {
+        hitbox = new Rectangle2D.Float(x, y, width, height);
 
     }
 
-    protected void updateHitbox() {
-        hitbox.x = (int)x;
-        hitbox.y = (int)y;
-    }
+//    protected void updateHitbox() {
+//        hitbox.x = (int)x;
+//        hitbox.y = (int)y;
+//    }
 
-    public Rectangle getHitbox() {
+    public Rectangle2D.Float getHitbox() {
         return hitbox;
     }
 }
