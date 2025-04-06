@@ -1,11 +1,11 @@
 package entities;
 
 import utils.LoadSave;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import static utils.Constants.PlayerConstants.*;
+import static utils.HelpMethods.CanMoveHere;
 
 public class Player extends Entity{
     private BufferedImage[][] animations;
@@ -17,6 +17,7 @@ public class Player extends Entity{
     private boolean isMoving = false;
     private boolean isAttacking = false;
     private float playerSpeed = 1.0F;
+    private int[][] lvlData;
 
     public Player(float x, float y, int width, int height) {
         super(x, y, width, height);
@@ -72,19 +73,28 @@ public class Player extends Entity{
 
     private void updatePosition() {
         isMoving = false;
+        if (!left && !right && !up && !down) {
+            return;
+        }
+
+        float xSpeed = 0;
+        float ySpeed = 0;
+
         if (left && !right) {
-            x -= playerSpeed;
-            isMoving = true;
+            xSpeed = -playerSpeed;
         } else if (right && !left) {
-            x += playerSpeed;
-            isMoving = true;
+            xSpeed = playerSpeed;
         }
 
         if (up && !down) {
-            y -= playerSpeed;
-            isMoving = true;
+            ySpeed = -playerSpeed;
         } else if(down && !up) {
-            y += playerSpeed;
+            ySpeed = playerSpeed;
+        }
+
+        if (CanMoveHere(x + xSpeed, y + ySpeed, width, height, lvlData)) {
+            this.x += xSpeed;
+            this.y += ySpeed;
             isMoving = true;
         }
     }
@@ -97,6 +107,10 @@ public class Player extends Entity{
                 for (int i = 0; i < animations[j].length; i++)
                     animations[j][i] = img.getSubimage(i * 64, j * 40, 64, 40);
 
+    }
+
+    public void loadLvlData(int[][] lvlData) {
+        this.lvlData = lvlData;
     }
 
     public void resetDirectionBooleans() {
